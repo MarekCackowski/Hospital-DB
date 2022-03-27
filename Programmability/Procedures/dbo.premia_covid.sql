@@ -18,11 +18,12 @@ BEGIN
 		WHERE 
 			stanowisko = 'pielegniarz' 
 			AND nazwa_oddzialu = 'Chorób zakaźnych' 
+			AND data_dyzur < GETDATE()
 			AND DATEDIFF(
 				YEAR, 
 				data_dyzur, 
 				GETDATE ()
-			)= 0 
+			) = 0 
 		GROUP BY 
 			p.pesel_pracownik
 	SET TRAN ISOLATION LEVEL SERIALIZABLE
