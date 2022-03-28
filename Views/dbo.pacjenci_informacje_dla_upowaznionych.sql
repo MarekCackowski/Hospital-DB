@@ -1,10 +1,7 @@
 ﻿SET QUOTED_IDENTIFIER, ANSI_NULLS ON
 GO
-
-
-
 CREATE VIEW [dbo].[pacjenci_informacje_dla_upowaznionych] AS 
-SELECT 
+SELECT TOP 1000
 	p.nazwisko, 
 	p.imie, 
 	ski.nr_sali, 
@@ -85,4 +82,7 @@ GROUP BY
 	p.imie, 
 	ski.nr_sali, 
 	czy_posiada_skierowanie
+ORDER BY
+	p.nazwisko,
+	p.imie
 GO

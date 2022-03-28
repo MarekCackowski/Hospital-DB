@@ -7,7 +7,7 @@ BEGIN
     DECLARE @zuzyte int
     DECLARE @liczba int
     DECLARE @w_id char(7)
-   	DECLARE kursor CURSOR LOCAL FOR
+   	DECLARE kursor CURSOR FORWARD_ONLY LOCAL FOR
         SELECT
 			id_wyrobu, liczba_zuzytych
         FROM
