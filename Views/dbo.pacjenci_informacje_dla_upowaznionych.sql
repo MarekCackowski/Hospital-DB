@@ -23,15 +23,18 @@ SELECT TOP 1000
 	) AS zabiegi, 
 	(		
 		SELECT 
-			TOP 1 TRIM (nazwisko) + ' ' + TRIM(imie)+ ', ' + 
-				LEAD(TRIM (nazwisko) + ' ' + TRIM(imie)) OVER(ORDER BY p.pesel_pacjent) 
+			TOP 1 TRIM (nazwisko) + ' ' + TRIM(imie) +
+				CASE
+					WHEN LEAD(p.pesel_pacjent) OVER(ORDER BY p.pesel_pacjent) = p.pesel_pacjent THEN ', ' +  LEAD(TRIM (nazwisko) + ' ' + TRIM(imie)) OVER(ORDER BY p.pesel_pacjent)
+					ELSE ' '
+				END
 		FROM 
 			osoba_upowazniona osu1 
 			INNER JOIN upowaznia up1 ON osu1.id_upowaznionej = up1.id_upowaznionej 
 			INNER JOIN oswiadczenie os1 ON up1.id_oswiadczenia = os1.id_oswiadczenia 
 		WHERE 
 			os1.pesel_pacjent = p.pesel_pacjent 
-			AND typ_oswiadczenia = 1 
+			AND typ_oswiadczenia = 1
 		ORDER BY 
 			p.pesel_pacjent
 	) AS osoby_upowaznione 

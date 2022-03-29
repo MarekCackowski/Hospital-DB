@@ -6,7 +6,7 @@ BEGIN
 	DECLARE @pesel CHAR(11)
 	DECLARE @liczba_dni INT
 	DECLARE @srednie_wynagrodzenie INT
-	DECLARE kursor CURSOR LOCAL FOR
+	DECLARE kursor CURSOR FORWARD_ONLY LOCAL FOR
 		SELECT 
 			p.pesel_pracownik, 
 			COUNT(d.id_dyzur) 
@@ -23,7 +23,7 @@ BEGIN
 				YEAR, 
 				data_dyzur, 
 				GETDATE ()
-			) = 0 
+			)= 0 
 		GROUP BY 
 			p.pesel_pracownik
 	SET TRAN ISOLATION LEVEL SERIALIZABLE
@@ -33,7 +33,7 @@ BEGIN
 		FETCH NEXT FROM kursor INTO @pesel, @liczba_dni
 		WHILE @@FETCH_STATUS=0
 		BEGIN
-			IF @liczba_dni>=2
+			IF @liczba_dni>=20
 			BEGIN
 				SET @srednie_wynagrodzenie=[dbo].[srednie_wynagrodzenie_pielegniarze]()
 				UPDATE pracownik
